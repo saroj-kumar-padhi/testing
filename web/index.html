@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    Fore more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+  -->
+  
+  <base href="/">
+  <meta name="facebook-domain-verification" content="8ju46w8ub0y0qocla6xsj7keby9m86"/>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Puja Purohit is an online service aggregator for online pandit booking wherein customers may select from a wide variety of Pujas such as , satyanarayan puja, griha pravesh , marriage ceremony, engagement ceremony, Laxmi puja , Ganesha puja and Durga puja, mata ki chouki and jaagran, maha mritunjya jap, havans,naming ceremony, mundan ceremony, birthday ceremony,last rite rituals and many others. Puja Purohit shall connect customers seeking such services with the relevant Pandit chosen by customer itself, who shall provide the services at the customer’s doorstep/venue of choice. Puja Purohit aims to serve you for your exact and customised religious need with our well experienced Purohit'ss and puja samagri at reasonable prices and hassle free service. Customers can book Purohit online. On completion of the service, the Customers may provide us with reviews and feedbacks for the Service Provider.">
+  <meta name="keywords" content="puja purohit, online pandit booking, pandit near by me, intercity pandit booking platform, online samagri booking,pujan vidhi, pandit for puja">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="pujapurohit">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Puja Purohit | Get pandit nearby you | Online pandit booking</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+        //navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      });
+     
+    }
+
+// if ("serviceWorker" in navigator) {
+// navigator.serviceWorker
+//   .register("./firebase-messaging-sw.js")
+//   .then(function(registration) {
+//     console.log("Registration successful, scope is:", registration.scope);
+//     messaging.getToken({vapidKey:'BLY7oUD7fJQi7g1vbe1mEU5rYOAYugqXyCHmW_jcUpyeXiG-JyfNaeUHPlCJh-g4vxAztTnjZWr9id-GAmv7r9c', serviceWorkerRegistration : registration })
+//       .then((currentToken) => {
+//         if (currentToken) {
+//           console.log('current token for client: ', currentToken);
+
+//           // Track the token -> client mapping, by sending to backend server
+//           // show on the UI that permission is secured
+//         } else {
+//           console.log('No registration token available. Request permission to generate one.');
+
+//           // shows on the UI that permission is required 
+//         }
+//       }).catch((err) => {
+//         console.log('An error occurred while retrieving token. ', err);
+//         // catch error while creating client token
+//       });  
+//     })
+//     .catch(function(err) {
+//       console.log("Service worker registration failed, error:"  , err );
+//   }); 
+// }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQYFsjixY_xVVx48e_iDVKmaPjhBD7Km8"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
+
+  <script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBZ13A_jaEZIItP8ezgFVwrFDmkBJohBbk",
+    authDomain: "swastik13-8242d.firebaseapp.com",
+    databaseURL: "https://swastik13-8242d.firebaseio.com",
+    projectId: "swastik13-8242d",
+    storageBucket: "swastik13-8242d.appspot.com",
+    messagingSenderId: "536545876267",
+    appId: "1:536545876267:web:47bc0d6cf84e6592abcd6e",
+    measurementId: "G-V0WV8E6JVW"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
+</html>
