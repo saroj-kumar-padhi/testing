@@ -2,15 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hovering/hovering.dart';
+import 'package:pujapurohit/Models/BModal.dart';
 import 'package:pujapurohit/Pages/PanditSection/Controllers/panditsController.dart';
 import 'package:pujapurohit/Pages/PanditSection/PanditHome.dart';
 import 'package:pujapurohit/Pages/PanditSection/Profile.dart';
+import 'package:pujapurohit/Pages/PanditSection/Widgets/ImageView.dart';
 import 'package:pujapurohit/SignIn/AuthController.dart';
 import 'package:pujapurohit/Widgets/Loader.dart';
 import 'package:pujapurohit/Widgets/Texts.dart';
 import 'package:pujapurohit/Widgets/YoutubePlayer.dart';
 import 'package:pujapurohit/Widgets/bottombar.dart';
+import 'package:pujapurohit/Widgets/newbottombar.dart';
+import 'package:pujapurohit/controller/CommonController.dart';
 import 'package:pujapurohit/controller/LocationController.dart';
 import 'package:pujapurohit/controller/UserController.dart';
 
@@ -31,6 +38,7 @@ class Detail extends StatelessWidget{
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
               StreamBuilder<DocumentSnapshot>(
@@ -44,11 +52,12 @@ class Detail extends StatelessWidget{
                     final String textdata = i;
                     final txt = Container(
                       margin: EdgeInsets.all(20),
-                      child: Text1(data: "${i}", max: 20,min:18,clr:Colors.black,),
+                      child: Text1(data: "${i}", max:ResponsiveWidget.isSmallScreen(context)?12:20,min:ResponsiveWidget.isSmallScreen(context)?10:18,clr:Colors.black,),
                     );
                     para.add(txt);
                   }
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                        Container(
                        height: height*0.35,
@@ -153,6 +162,18 @@ class Detail extends StatelessWidget{
                           ],
                         )                 
                         ),
+                        Padding(
+                        padding:EdgeInsets.only(left:width*0.1),
+                        child: Text1(
+                          data: "Suggested purohit for ${snapshot.data!.get('pujaname')}",                         
+                          max: 14, min: 11,clr: Colors.black87,),
+                      ),
+                      SizedBox(height: 10,),
+                      Padding(
+                        padding:EdgeInsets.only(left:width*0.1),
+                        child: authController.user==null? unloggeduggestions(snapshot):SizedBox(),
+                        
+                      ),
                        snapshot.data!.get('video') ?Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -165,17 +186,20 @@ class Detail extends StatelessWidget{
                           ],
                         ):SizedBox(),
 
-                    Column(
-                        children: [
-                          ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            children: para,
-                            shrinkWrap: true,
-                          ),                         
-                        ],
+                    Padding(
+                      padding: EdgeInsets.only(left: width*0.1,right: width*0.1),
+                      child: Column(
+                          children: [
+                            ListView(
+                              physics: NeverScrollableScrollPhysics(),
+                              children: para,
+                              shrinkWrap: true,
+                            ),                         
+                          ],
+                      ),
                     ),
                       SizedBox(height: 10,),
-                      BottomBar()
+                      ResponsiveWidget.isSmallScreen(context)?MobileBottomBar():NewBottomBar()
                     ],
                   );
                 }
@@ -185,89 +209,329 @@ class Detail extends StatelessWidget{
       ),
     );
   }
-   Column logedpandits(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, ) {
-     
-    return Column(
-                                children: [
-                                Text1(data: "Recommended pujan on this day :${snapshot.data!.get('pujaname')}", max: 20,min:18,clr:Colors.black,),
-                               SizedBox(height: 10,),
-                              GetX<UserController>(
-                                init: Get.put<UserController>(UserController()),
-                                builder: (UserController userController){
-                                  if(userController.userModel.value.lat == null){
-                                    return Center(child:SizedBox(height:50,child: Loader(),));
-                                  }
-                                  return   GetX<PanditKeywordController>(
-                            init:  Get.put<PanditKeywordController>(PanditKeywordController(what:'${snapshot.data!.get('pujakeyword')}',lat: 26.1197,lng: 85.3910)),
-                            builder: (PanditKeywordController panditController) {
-                              if (panditController != null && panditController.pandits != null) {
-                                if(panditController.panditList.value!.isEmpty){
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top:30.0),
-                                    child: Text1(data: "No pandit in your area performing ${snapshot.data!.get('pujaname')}", max: 18, min: 12,clr:Colors.redAccent),
-                                  );
-                                }
-                            return ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: panditController.panditList.value!.length,
-                                itemBuilder: (_, index) {
-                                  return NewPanditCard(bModal: panditController.pandits![index],uid: '',);
-                                },
+    Widget loggeduggestions(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot) {
+    return GetX<UserController>(
+                      init: Get.put<UserController>(UserController()),
+                      builder: (UserController userController){
+                        if(userController.userModel.value.lat == null){
+                          return Center(child:SizedBox(height:50,child: Loader(),));
+                        }
+                        return   GetX<PanditKeywordController>(
+                          init:  Get.put<PanditKeywordController>(PanditKeywordController(what:'${snapshot.data!.get('pujakeyword')}',lat: double.parse('${userController.userModel.value.lat}'),lng: double.parse('${userController.userModel.value.lng}'))),
+                          builder: (PanditKeywordController panditController) {
+                            if (panditController != null && panditController.pandits != null) {
+                              if(panditController.panditList.value!.isEmpty){
+                                return Padding(
+                                  padding: const EdgeInsets.only(top:30.0),
+                                  child: Text1(data: "No pandit in your area performing ${snapshot.data!.get('pujaname')}", max: 18, min: 12,clr:Colors.redAccent),
+                                );
+                              }
+                              return Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 220.0,
+                                      child: new ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:panditController.panditList.value!.length,
+                                        itemBuilder: (BuildContext ctxt, int index) {
+                                          return new PanditNewCard(bmModal: panditController.pandits![index],lat: double.parse('${userController.userModel.value.lat}'),lng: double.parse('${userController.userModel.value.lng}'));
+                                        },
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               );
-                              
-                          } else {
-                            return Center(child: SizedBox(
-                                height: 50,width: 50,
-                                child: Loader()));
-                          }
-                        },
+
+                            } else {
+                              return Center(child: SizedBox(
+                                  height: 50,width: 50,
+                                  child: Loader()));
+                            }
+                          },
+                        );
+                      },
                     );
-                                },
-                              )
-
-                   
-                              ],
-                            );
   }
-  Column pandits(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot, LocationController locationController) {
-    return Column(
-                             
-                             
-                             
-                              children: [
-                                Text1(data: "Recommended pujan on this day :${snapshot.data!.get('pujaname')}", max: 20,min:18,clr:Colors.black,),
-                               SizedBox(height: 10,),
-                                GetX<PanditKeywordController>(
-                            init: Get.put<PanditKeywordController>(PanditKeywordController(what: '${snapshot.data!.get('pujakeyword')}',lat: double.parse('${locationController.location.value.lat}'),lng: double.parse('${locationController.location.value.lng}',),)),
-                            builder: (PanditKeywordController panditController) {
-                              if (panditController != null && panditController.pandits != null) {
-                                if(panditController.panditList.value!.isEmpty){
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top:30.0),
-                                    child: Text1(data: "No pandit in your area performing ${snapshot.data!.get('pujaname')}", max: 18, min: 12,clr:Colors.redAccent),
-                                  );
-                                }
-                            return ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: panditController.panditList.value!.length,
-                                itemBuilder: (_, index) {
-                                  return PanditCard(bModal: panditController.pandits![index]);
-                                },
-                              );
-                              
-                          } else {
-                            return Center(child: SizedBox(
-                                height: 50,width: 50,
-                                child: Loader()));
-                          }
+
+  Widget unloggeduggestions(AsyncSnapshot<DocumentSnapshot<Object?>> snapshot) {
+    return GetX<LocationController>(
+      init: Get.put<LocationController>(LocationController()),
+      builder: (LocationController userController){
+        if(userController.location.value.lat == null){
+          return Center(child:SizedBox(height:50,child: Loader(),));
+        }
+        return   GetX<PanditKeywordController>(
+          init:  Get.put<PanditKeywordController>(PanditKeywordController(what:'${snapshot.data!.get('pujakeyword')}',lat: double.parse('${userController.location.value.lat}'),lng: double.parse('${userController.location.value.lng}'))),
+          builder: (PanditKeywordController panditController) {
+            if (panditController != null && panditController.pandits != null) {
+              if(panditController.panditList.value!.isEmpty){
+                return Padding(
+                  padding: const EdgeInsets.only(top:30.0),
+                  child: Text1(data: "No pandit in your area performing ${snapshot.data!.get('pujaname')}", max: 18, min: 12,clr:Colors.redAccent),
+                );
+              }
+              return Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SizedBox(
+                      height: 220.0,
+                      child: new ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount:panditController.panditList.value!.length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          return new PanditNewCard(bmModal: panditController.pandits![index],lat: double.parse('${userController.location.value.lat}'),lng: double.parse('${userController.location.value.lng}'));
                         },
-                    )
+                      ),
+                    ),
+                  ),
 
-                   
-                              ],
-                            );
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              );
+
+            } else {
+              return Center(child: SizedBox(
+                  height: 50,width: 50,
+                  child: Loader()));
+            }
+          },
+        );
+      },
+    );
   }
 
+
+
+}
+
+
+class PanditNewCard extends StatelessWidget{
+  final BMModal? bmModal;
+  final double? lat;
+  final double? lng;
+  
+  PanditNewCard({this.bmModal,this.lat,this.lng});
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    GeoPoint geoPoint = bmModal!.location!['geopoint'];
+   double distanceInMeters = Geolocator.distanceBetween(lat!,lng!, geoPoint.latitude, geoPoint.longitude);
+   return InkWell(
+     hoverColor: Colors.transparent,
+     onTap: (){
+       FareBreakup farebreakup = Get.put(FareBreakup());
+       farebreakup.pandit(bmModal!.image!, bmModal!.name!, bmModal!.number!, bmModal!.token!,bmModal!.uid!,double.parse('${(distanceInMeters/1000).toStringAsFixed(2)}'));
+       CommonController commonController = Get.put(CommonController());
+       commonController.updatePandit(bmModal!.uid!);
+       Get.toNamed('/profile?puid=${bmModal!.uid}');
+     },
+     child: HoverWidget(
+       onHover: (event){},
+       hoverChild: Container(
+       margin: EdgeInsets.all(10),
+       alignment:Alignment.center,
+       padding:EdgeInsets.all(10.0) ,
+       decoration: BoxDecoration(
+           color:Colors.white,
+           borderRadius: BorderRadius.circular(12),
+           border: Border.all(
+             color:Color(0xff181c2c) 
+           ),
+           boxShadow: [
+             BoxShadow(color: Colors.grey.shade100,blurRadius: 10)
+           ]
+       ),
+       height:height*0.3,
+       width:  ResponsiveWidget.isSmallScreen(context)? width*0.4:width*0.15,
+       child: Stack(
+
+         children: [
+           Align(
+             alignment: Alignment.topRight,
+             heightFactor: 20,
+             child: bmModal!.verified?Icon(Icons.verified,color: Colors.blueAccent,size: 14,):SizedBox(),
+           ),
+           Align(
+             alignment:Alignment.topCenter,
+             child: CircleAvatar(
+               maxRadius:40,
+               backgroundColor: Colors.white,
+               backgroundImage: NetworkImage('${bmModal!.image}',),
+             ),
+           ),
+           SizedBox(height:5),
+           Padding(
+             padding: EdgeInsets.only(top:40),
+             child: Column(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
+                   Text("${bmModal!.name}",style: GoogleFonts.aBeeZee(color:Colors.black54,fontSize: ResponsiveWidget.isSmallScreen(context)?12:16,),textAlign: TextAlign.center,),
+                   SizedBox(height:5),
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       bmModal!.raters==0?Container(
+                       decoration: BoxDecoration(
+                       color: Colors.green,
+                       borderRadius: BorderRadius.circular(5),),
+                           alignment: Alignment.center,
+                           padding: EdgeInsets.all(5),
+                           child: Row(children: [
+                             Icon(Icons.star,color:Colors.white,size:10),
+                             SizedBox(width:2),
+                             Text1(max: 10, data: '5.0', min: 8,clr: Colors.white,)
+                           ],),
+                       ):SizedBox(
+                           height:20,
+                           width: 40,
+                           child: rating()),
+                       //Text1(data:'${(distanceInMeters/1000).toStringAsFixed(2)} Km', max: 12, min: 10,clr:Colors.green,weight: FontWeight.bold,)
+                     ],
+                   )
+                 ]),
+           ),
+           Column(
+             mainAxisAlignment: MainAxisAlignment.end,
+             children: [
+               SizedBox(
+                 height:40,
+                 child: Row(
+                   mainAxisAlignment:MainAxisAlignment.center,
+                   children: [
+                     ElevatedButton(onPressed: (){
+                       FareBreakup farebreakup = Get.put(FareBreakup());
+                       farebreakup.pandit(bmModal!.image!, bmModal!.name!, bmModal!.number!, bmModal!.token!,bmModal!.uid!,double.parse('${(distanceInMeters/1000).toStringAsFixed(2)}'));
+                       CommonController commonController = Get.put(CommonController());
+                       commonController.updatePandit(bmModal!.uid!);
+                       Get.toNamed('/profile?puid=${bmModal!.uid}');
+                     }, child: Text1(data: 'Book now',max: ResponsiveWidget.isSmallScreen(context)?10:15,min: 8,clr: Colors.white),style: ElevatedButton.styleFrom(primary: Color(0xff181c2c),shape: StadiumBorder()),),
+                   ],
+                 ),
+               ),
+             ],
+           )
+         ],
+       ),
+     ),
+       child: Container(
+         margin: EdgeInsets.all(10),
+         alignment:Alignment.center,
+         padding:EdgeInsets.all(10.0) ,
+         decoration: BoxDecoration(
+             color:Colors.white,
+             borderRadius: BorderRadius.circular(12),
+             boxShadow: [
+               BoxShadow(color: Colors.grey.shade100,blurRadius: 20)
+             ]
+         ),
+         height:ResponsiveWidget.isSmallScreen(context)? height*0.25:height*3,
+         width:ResponsiveWidget.isSmallScreen(context)? width*0.4:width*0.13,
+         child: Stack(
+     
+           children: [
+             Align(
+               alignment: Alignment.topRight,
+               heightFactor: 20,
+               child: bmModal!.verified?Icon(Icons.verified,color: Colors.blueAccent,size: 14,):SizedBox(),
+             ),
+             Align(
+               alignment:Alignment.topCenter,
+               child: CircleAvatar(
+                 maxRadius:40,
+                 backgroundColor: Colors.white,
+                 backgroundImage: NetworkImage('${bmModal!.image}',),
+               ),
+             ),
+             SizedBox(height:5),
+             Padding(
+               padding: EdgeInsets.only(top:40),
+               child: Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                     Text("${bmModal!.name}",style: GoogleFonts.aBeeZee(color:Colors.black54,fontSize: ResponsiveWidget.isSmallScreen(context)?12:16,),textAlign: TextAlign.center,),
+                     SizedBox(height:5),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         bmModal!.raters==0?Container(
+                         decoration: BoxDecoration(
+                         color: Colors.green,
+                         borderRadius: BorderRadius.circular(5),),
+                             alignment: Alignment.center,
+                             padding: EdgeInsets.all(5),
+                             child: Row(children: [
+                               Icon(Icons.star,color:Colors.white,size:10),
+                               SizedBox(width:2),
+                               Text1(max: 10, data: '5.0', min: 8,clr: Colors.white,)
+                             ],),
+                         ):SizedBox(
+                             height:20,
+                             width: 40,
+                             child: rating()),
+                         //Text1(data:'${(distanceInMeters/1000).toStringAsFixed(2)} Km', max: 12, min: 10,clr:Colors.green,weight: FontWeight.bold,)
+                       ],
+                     )
+                   ]),
+             ),
+            ResponsiveWidget.isLargeScreen(context)? SizedBox():Column(
+               mainAxisAlignment: MainAxisAlignment.end,
+               children: [
+                 SizedBox(
+                   height:40,
+                   child: Row(
+                     mainAxisAlignment:MainAxisAlignment.center,
+                     children: [
+                       ElevatedButton(onPressed: (){
+                         FareBreakup farebreakup = Get.put(FareBreakup());
+                         farebreakup.pandit(bmModal!.image!, bmModal!.name!, bmModal!.number!, bmModal!.token!,bmModal!.uid!,double.parse('${(distanceInMeters/1000).toStringAsFixed(2)}'));
+                         CommonController commonController = Get.put(CommonController());
+                         commonController.updatePandit(bmModal!.uid!);
+                         Get.toNamed('/profile?puid=${bmModal!.uid}');
+                       }, child: Text1(data: 'Book now',max:ResponsiveWidget.isSmallScreen(context)?10:15,min: 8,clr: Colors.white),style: ElevatedButton.styleFrom(primary: Color(0xff181c2c),shape: StadiumBorder()),),
+                     ],
+                   ),
+                 ),
+               ],
+             )
+           ],
+         ),
+       ),
+     ),
+   );
+  }
+  Widget rating(){
+    var swastik = bmModal!.swastik;
+    int? rates = bmModal!.raters;
+    double? overall_rate=swastik!/rates!;
+    if(overall_rate!>=4){
+      return newrate(overall_rate,Colors.green);
+    }
+    if(overall_rate >=3 && overall_rate<4){
+      return  newrate(overall_rate,Colors.orangeAccent);
+    }
+    return  newrate(overall_rate>0?bmModal!.swastik:0, Colors.redAccent);
+
+
+
+  }
+
+  Container newrate(double overall_rate,Color clr) {
+    return Container(
+      decoration: BoxDecoration(
+        color: clr,
+        borderRadius: BorderRadius.circular(5),),
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(5),
+      child: Row(children: [
+        Icon(Icons.star,color:Colors.white,size:10),
+        SizedBox(width:2),
+        Text1(max: 10, data: '${overall_rate.toStringAsFixed(1)}', min: 8,clr: Colors.white,)
+      ],),
+    );
+  }
 }

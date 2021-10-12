@@ -70,37 +70,61 @@ class AuthController extends GetxController {
     user!.reload();
   }
 
-  signupmyCredential(String input)async{
+  signupmyCredential(String input,String lat,String lng,String address)async{
   print('${verifinaction.value}');
     AuthCredential authCredential = PhoneAuthProvider.credential(verificationId: verifinaction.value, smsCode: loginField.otp);
-   await auth.signInWithCredential(authCredential).catchError((e){Get.snackbar("Error", "${e.message}");}) .whenComplete(()async{
-        await   FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
-        "name": loginField.name,
-         "uid": user!.uid,
-         "email": loginField.email,
-         "age":loginField.age,
-         "phone":loginField.phone,
-         "photoUrl":"https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/appfiles%2Fblank-profile-picture-png-removebg-preview.png?alt=media&token=56909aea-e9d5-41b5-8bed-2b147e474a41",
-         "lat":locationController.location.value.slat.toString(),
-         "lng":locationController.location.value.slng.toString(),   
-         "address":locationController.location.value.address    
-      });
-     await  user!.updateProfile(displayName: '${loginField.name}',photoURL:"https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/appfiles%2Fblank-profile-picture-png-removebg-preview.png?alt=media&token=56909aea-e9d5-41b5-8bed-2b147e474a41");
-     await  user!.updateEmail('${loginField.email}');
-    }).catchError((e){Get.snackbar("Error", "${e.message}",backgroundColor: Colors.white);}).whenComplete(() async{
-      await user!.reload();
-   // html.window.location.reload();
-     Get.snackbar("Account", "Account sucesfully created now log in again",backgroundColor: Colors.white,duration: Duration(seconds:3));
-    }).catchError((e){Get.snackbar("Error", "${e.message}",backgroundColor: Colors.white);});
+    await auth.signInWithCredential(authCredential).catchError((e){Get.snackbar("Error", "${e.message}");}).then((value)async{
+        FirebaseFirestore.instance.doc('users/${value.user!.uid}').set({
+           "name": loginField.name,
+            "uid": value.user!.uid,
+            "email": loginField.email,
+            "age":loginField.age,
+            "phone":loginField.phone,
+            "photoUrl":"https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/appfiles%2Fblank-profile-picture-png-removebg-preview.png?alt=media&token=56909aea-e9d5-41b5-8bed-2b147e474a41",
+            "lat":lat,
+            "lng":lng,   
+            "address":address,
+            "joining":FieldValue.serverTimestamp(),
+            "token":"Web"
+        });
+           await  value.user!.updateProfile(displayName: '${loginField.name}',photoURL:"https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/appfiles%2Fblank-profile-picture-png-removebg-preview.png?alt=media&token=56909aea-e9d5-41b5-8bed-2b147e474a41");
+          await  value.user!.updateEmail('${loginField.email}');
+          await value.user!.reload().whenComplete((){
+              Get.toNamed('/home');
+              loadController.updateLoad();
+              loginController.signin();
+          });
+          html.window.location.reload();
+    });
+    
+    
   }
   
   myCredential(String input)async{
     loadController.updateLoad();
     print('${verifinaction.value}');
     AuthCredential authCredential = PhoneAuthProvider.credential(verificationId: verifinaction.value, smsCode: loginField.otp);
-    UserCredential authResult = await auth.signInWithCredential(authCredential).catchError((e){Get.snackbar("Error", "${e.message}");}).whenComplete(() {
-      loadController.updateLoad();
-      html.window.location.reload();
+    
+    // UserCredential authResult = await auth.signInWithCredential(authCredential).catchError((e){Get.snackbar("Error", "${e.message}");}).whenComplete(() {
+    //   loadController.updateLoad();
+    //   html.window.location.reload();
+    // });
+    
+    await auth.signInWithCredential(authCredential).catchError((e){Get.snackbar("Error", "${e.message}");}).then((value){
+      FirebaseFirestore.instance.doc('users/${value.user!.uid }').get().then((value) {
+            if(value.exists){
+                 loadController.updateLoad();
+                 html.window.location.reload();
+                 loginController.signin();
+            }
+            else{
+              loadController.updateLoad();
+              Get.snackbar("Login Error", "User not exists, please SignUp");
+              auth.signOut();
+              loginController.signin();
+              
+            }
+        });
     });
     loginController.signin();
     
@@ -125,6 +149,7 @@ class AuthController extends GetxController {
      }
      else{
         loginController.sotp();
+        loadController.updateLoad();
         print("sOtp activated");
      }
      verifinaction.value = confirmationResult.verificationId;

@@ -437,7 +437,7 @@ class DetailView extends StatelessWidget {
                                                             title:
                                                                 "Voted Sucesfully",
                                                             middleText:
-                                                                "You have alreadey voted");
+                                                                "You have already voted");
                                                       } else {
                                                         List<dynamic> total_V =
                                                             total_voters;
@@ -531,7 +531,7 @@ class DetailView extends StatelessWidget {
                       Expanded(
                           flex: 3,
                           child:
-                              Image.network('${snapshot.data!.get('image')}')),
+                              Image.network('${snapshot.data!.get('image') }')),
                       Expanded(
                           flex: 2,
                           child: Padding(

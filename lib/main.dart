@@ -3,26 +3,31 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:pujapurohit/Pages/PanditSection/Contest.dart';
+import 'package:pujapurohit/Pages/PanditSection/CustomCIty.dart';
 import 'package:pujapurohit/Pages/PanditSection/Detail.dart';
 import 'package:pujapurohit/Pages/PanditSection/NewLandingPage.dart';
 import 'package:pujapurohit/Pages/PanditSection/Topbar/calender.dart';
 import 'package:pujapurohit/Pages/PanditSection/Topbar/livedarshan.dart';
 import 'package:pujapurohit/Pages/PanditSection/Topbar/muhurat.dart';
-import 'package:pujapurohit/Pages/PanditSection/Topbar/pujanvidhi.dart';
-import 'package:pujapurohit/Pages/PanditSection/Topbar/varat.dart';
 import 'package:pujapurohit/Pages/Services/database.dart';
 import 'package:pujapurohit/Pages/locationChange.dart';
 import 'package:pujapurohit/SignIn/StarterController.dart';
 import 'package:pujapurohit/SignIn/Update.dart';
+import 'package:pujapurohit/Starter/BLanding.dart';
 import 'package:pujapurohit/Starter/Landing.dart';
 import 'package:pujapurohit/Starter/SplashScreen.dart';
 import 'package:pujapurohit/Widgets/YoutubePlayer.dart';
 import 'package:pujapurohit/construction.dart';
+import 'package:pujapurohit/testimage.dart';
 import 'Pages/NewPanditHome.dart';
 import 'Pages/PanditSection/Account.dart';
+import 'Pages/PanditSection/Events.dart';
 import 'Pages/PanditSection/PanditHome.dart';
 import 'Pages/PanditSection/Profile.dart';
 import 'Pages/PanditSection/ServiceDetail.dart';
+import 'Pages/PanditSection/Topbar/PujanVidhi/pujanVidhi.dart';
+import 'Pages/PanditSection/Topbar/PujanVidhi/screens/details_screen.dart';
+import 'Pages/PanditSection/Topbar/article.dart';
 import 'Pages/PanditSection/Topbar/offers.dart';
 import 'Pages/PanditSection/Widgets/ImageView.dart';
 import 'Pages/PanditSection/Topbar/live.dart';
@@ -37,7 +42,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-
 import 'controller/LocationController.dart';
 import 'controller/UserController.dart';
 import 'controller/loginController.dart';
@@ -70,14 +74,13 @@ class MyApp extends StatelessWidget{
       //builder: DevicePreview.appBuilder,
       theme: Themes.light,
       darkTheme: Themes.dark,
-      
-      initialBinding: LocationBinding(),
-    //home: NewLandingPage(),
-     initialRoute: '/',
+    initialBinding: LocationBinding(),
+    //home: ImageTest(),
+    initialRoute: '/home',
       title: "Puja Purohit",
       getPages: [
-        GetPage(name: '/', page:()=>SplashScreen()),
-        GetPage(name: '/landing', page:()=>Landing()),
+        // GetPage(name: '/', page:()=>SplashScreen()),
+        // GetPage(name: '/landing', page:()=>Landing()),
         GetPage(name: '/home', page:()=>IsLocated()),
         GetPage(name: '/profile', page:()=> Profile()),
         GetPage(name: '/serviceDetail', page:()=>ServiceDetail()),
@@ -90,14 +93,22 @@ class MyApp extends StatelessWidget{
         GetPage(name: '/live', page: ()=>Live()),
         GetPage(name: '/offer', page: ()=>Offer()),
         GetPage(name: '/muhurat', page: ()=>Muhurat()),
-        GetPage(name: '/pujanvidhi', page: ()=>PujanVidhi()),
+        GetPage(name: '/pujanvidhi', page: ()=>PujaVidhi()),
+        GetPage(name: '/pujanvidhidetail', page: ()=>PujanDetailsScreen()),
+        GetPage(name: '/steps', page: ()=>Steps()),
+        GetPage(name: '/article', page: ()=>Varat()),
         GetPage(name: '/calender', page: ()=>Calender())    ,
         GetPage(name: '/livedarshan', page: ()=>LiveDarshan()),
         GetPage(name: '/varat', page: ()=>Varat()),
         GetPage(name: '/detail', page: ()=>Detail()),
-        GetPage(name: '/searchplaces', page: ()=>SearchPlaces()),
+        GetPage(name: '/articledetail', page: ()=>ArticleDetail()),
+        //GetPage(name: '/searchplaces', page: ()=>SearchPlaces()),
         GetPage(name: '/contest', page: ()=>Contest()),
-        GetPage(name: '/DetailView', page: ()=>DetailView())
+        GetPage(name: '/DetailView', page: ()=>DetailView()),
+        GetPage(name: '/location', page:()=> CustomCity()),
+         GetPage(name: '/event', page: ()=>Events()),
+        GetPage(name:'/eventDetail',page: ()=>EventDetail()),
+        GetPage(name: '/imageview', page: ()=>ImageView())
       ],
     );
   }
@@ -110,6 +121,7 @@ class IsLocated extends StatelessWidget{
     LocationController locationController = Get.put(LocationController());
     LoginController loginController = Get.put(LoginController());
     AuthController authController =Get.put(AuthController());
+    //UserController userController = Get.put(UserController());
     return Obx((){
     
       if(authController.user!=null){
@@ -139,7 +151,7 @@ class IsLocated extends StatelessWidget{
      return locationController.location.value.lat!=null?Provider<Database>(create: (_)=>FirestoreDatabase(),child: PanditHome(),):Landing();
    });
     }
-    return Landing();
+    return BLanding();
    });
    
   

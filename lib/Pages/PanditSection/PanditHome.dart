@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hovering/hovering.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +17,12 @@ import 'package:pujapurohit/SignIn/Update.dart';
 import 'package:pujapurohit/Widgets/Loader.dart';
 import 'package:pujapurohit/Widgets/Texts.dart';
 import 'package:pujapurohit/Widgets/bottombar.dart';
+import 'package:pujapurohit/Widgets/newbottombar.dart';
 import 'package:pujapurohit/colors/light_colors.dart';
 import 'package:pujapurohit/controller/CommonController.dart';
 import 'package:pujapurohit/controller/LocationController.dart';
 import 'package:url_launcher/link.dart';
+import '../NewPanditHome.dart';
 import 'Account.dart';
 import 'Controllers/panditsController.dart';
 import 'Controllers/upcomigEvent.dart';
@@ -44,12 +47,12 @@ class _PanditHomeState extends State<PanditHome> {
     var ScreenSize= MediaQuery.of(context).size;
     PanditController panditController = Get.put(PanditController(lat:double.parse('${locationController.location.value.lat.toString()}'),lng: double.parse('${locationController.location.value.lng.toString()}')));
    return Scaffold(
-     backgroundColor: Colors.white,
+     //backgroundColor: Colors.white,
      appBar:PreferredSize(preferredSize: Size(ScreenSize.width,height*0.099,), 
       child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: Colors.white,
+                //  color: Colors.white,
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))
               ),
               width: width,
@@ -134,29 +137,31 @@ class _PanditHomeState extends State<PanditHome> {
                     child: Row(
                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
-                      //  Expanded(
+                     //  Expanded(
                       //    flex: 1,
                       //    child: Topbar('Offers','https://firebasestorage.googleapis.com/v0/b/flutter-bf503.appspot.com/o/New%20App%2FGift-box-pink---vector-PNG-removebg-preview.png?alt=media&token=6881a7a9-777f-4fcd-9eea-fb97ab7f7ee4','offers')),                      
-                      //  SizedBox(width:10),
-                       Expanded(
+                     //  SizedBox(width:10),
+                        Expanded(
                            flex: 1,
-                           child: Topbar('Calender','https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/inventories%2Ftabs%2F%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%82%20%E0%A4%A4%E0%A4%BE%E0%A4%B2%E0%A4%BF%E0%A4%95%E0%A4%BE-2.png?alt=media&token=c313c34e-a3ca-453e-831b-a4478d22e27a','calender')),
+                           child: TopBar(name:'Calender',image:'https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/NewAppFiles%2Ftopbars%2FOnline%20calendar-amico%20(1).png?alt=media&token=46e017ce-63eb-42b7-a8b5-281bc2e1d850',tap:'calender')),
+                       SizedBox(width:10),
+                      //  Expanded(
+                      //      flex: 1,
+                      //      child: TopBar(name:'Varat & Upavas',image:'https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/NewAppFiles%2Ftopbars%2F25-251511_mix-fruit-vector-png-transparent-png-removebg-preview.png?alt=media&token=520b471b-041d-485a-a597-bfaecdc4fdf6',tap:'varat')),
                        SizedBox(width:10),
                        Expanded(
                            flex: 1,
-                           child: Topbar('Varat & Upavas','https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/NewAppFiles%2Ftopbars%2F25-251511_mix-fruit-vector-png-transparent-png-removebg-preview.png?alt=media&token=520b471b-041d-485a-a597-bfaecdc4fdf6','varat')),
-                       SizedBox(width:10),
-                       Expanded(
-                           flex: 1,
-                           child: Topbar('Pujan Vidhi','https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/NewAppFiles%2Ftopbars%2Fmangal-ghat-clipart-4-removebg-preview.png?alt=media&token=c5e4e7cf-b7d6-491e-87e7-6bd05d22ff4b','pujanvidhi')),
+                           child: TopBar(name:'Pujan Vidhi',image:'https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/NewAppFiles%2Ftopbars%2FProcessing-rafiki%20(2).png?alt=media&token=dc2c3e8a-22f7-4ac3-bb5d-58d02fbab3e9',tap:'pujanvidhi')),
                        SizedBox(height:10),
-                       Expanded(
+                        Expanded(
                            flex: 1,
-                           child: Topbar('Muhurat', 'https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/inventories%2Ftabs%2F%E0%A4%AA%E0%A4%82%E0%A4%9A%E0%A4%BE%E0%A4%82%E0%A4%97.png?alt=media&token=c76fb68c-e447-495f-b0bb-8ebd811469a4','muhurat')),
+                           child: TopBar(name:'Facts/Article',image: 'https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/NewAppFiles%2Ftopbars%2FSharing%20articles-rafiki.png?alt=media&token=51fde7f6-940a-4ba0-b915-16b5d33c24e6', tap:'article')),
+                     
                        SizedBox(height:10),
-                       Expanded(
+                       
+                        Expanded(
                            flex: 1,
-                           child: Topbar('Live Darshan', 'https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/appfiles%2F%E0%A4%A6%E0%A4%B0%E0%A5%8D%E0%A4%B6%E0%A4%A8-removebg-preview.png?alt=media&token=26e3278d-2937-4274-8271-549aff2835b2', 'livedarshan'))
+                           child: TopBar(name:'Muhurat',image: 'https://firebasestorage.googleapis.com/v0/b/swastik13-8242d.appspot.com/o/NewAppFiles%2Ftopbars%2FTime%20management-bro.png?alt=media&token=9b57c040-c94b-42da-b3e4-6b0d1a793f7d',tap:'muhurat')),
 
                                         
                      ],
@@ -192,10 +197,11 @@ class _PanditHomeState extends State<PanditHome> {
                            ),
                         SizedBox(height: 15,),
                         Container(
+                          padding: EdgeInsets.only(left:ResponsiveWidget.isSmallScreen(context)? 0:width*0.1,right: ResponsiveWidget.isSmallScreen(context)? 0:width*0.1,),
                         height:ResponsiveWidget.isSmallScreen(context)?height*0.3: height*0.4,
                         width: width,
                         //color: Color(0xff181c2c),
-                        color: Colors.white,
+                        //color: Colors.white,
                        // padding: EdgeInsets.only(left:width*0.1,right: width*0.05),
                         child: GetX<UpcomingEventController>(
                           init: Get.put<UpcomingEventController>(UpcomingEventController()),
@@ -218,10 +224,14 @@ class _PanditHomeState extends State<PanditHome> {
                         ),
                          ),
                         SizedBox(height: 20,),
-                        customHeading(context,'Purohit','Near you...'),
+                        Padding(
+                          padding:EdgeInsets.only(left:ResponsiveWidget.isSmallScreen(context)? 0: width*0.1,right: ResponsiveWidget.isSmallScreen(context)? 0:width*0.1,),
+                        child: customHeading(context,'Purohit','Near you...'),
+                        ),
                         SizedBox(height: 20,),
                         Padding(
-                      padding:  EdgeInsets.only(bottom:40.0,left:10,right:10),
+                           padding: EdgeInsets.only(left: ResponsiveWidget.isSmallScreen(context)? 0:width*0.1,right: ResponsiveWidget.isSmallScreen(context)? 0:width*0.1,bottom: 40),
+                      
                       child:  GetX<PanditController>(
                         init: Get.put<PanditController>(PanditController(lat: double.parse('${locationController.location.value.lat}'),lng: double.parse('${locationController.location.value.lng}'))),
                         builder: (PanditController panditController) {
@@ -231,21 +241,22 @@ class _PanditHomeState extends State<PanditHome> {
                                 shrinkWrap: true,
                                 itemCount: panditController.panditList.value!.length,
                                 itemBuilder: (_, index) {
-                                  return PanditCard(bModal: panditController.pandits![index]);
+                                  return PanditCard(bModal: panditController.pandits![index],lat: double.parse('${locationController.location.value.lat}'),lng: double.parse('${locationController.location.value.lng}'));
                                 },
                               ):
                               GridView.builder(
                                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(  
                                           crossAxisCount: ResponsiveWidget.isMediumScreen(context)?3:4,
-                                          crossAxisSpacing: ResponsiveWidget.isMediumScreen(context)?80:120,
-                                          mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        childAspectRatio: ResponsiveWidget.isMediumScreen(context) ?1:2,
 
                                       ),  
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: panditController.panditList.value!.length,
                                     itemBuilder: (_, index) {
-                                      return PanditCard(bModal: panditController.pandits![index]);
+                                      return PanditCard(bModal: panditController.pandits![index],lat: double.parse('${locationController.location.value.lat}'),lng: double.parse('${locationController.location.value.lng}'));
                                     }, 
                                   );
                               
@@ -319,7 +330,7 @@ class _PanditHomeState extends State<PanditHome> {
                         )],
                     )
                  ,
-                 BottomBar()
+                 ResponsiveWidget.isSmallScreen(context)? SizedBox():NewBottomBar()
                   ]
               ),
             ),
@@ -399,19 +410,36 @@ class _PanditHomeState extends State<PanditHome> {
       target: LinkTarget.blank,
       builder: (context,followlink){
         return InkWell(
+          hoverColor: Colors.transparent,
           onTap: followlink,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                   height:height*0.3,
-                   margin: EdgeInsets.all(30),
-                   decoration: BoxDecoration(
-                   color: Colors.white,
-                  //image: DecorationImage(image: NetworkImage('$image'),fit: BoxFit.fill)
-                      ),
-                      child: Image.network(image)
-                      ),
+              HoverWidget(
+                onHover: (event){},
+                hoverChild: Stack(
+                  children: [
+                    Container(
+                         height:height*0.4,
+                         margin: EdgeInsets.all(30),
+                         decoration: BoxDecoration(
+                         color: Colors.white,
+                        //image: DecorationImage(image: NetworkImage('$image'),fit: BoxFit.fill)
+                            ),
+                            child: Image.network(image,height: height*0.1,)
+                            ),
+                  ],
+                ),
+                child: Container(
+                     height:height*0.3,
+                     margin: EdgeInsets.all(30),
+                     decoration: BoxDecoration(
+                     color: Colors.white,
+                    //image: DecorationImage(image: NetworkImage('$image'),fit: BoxFit.fill)
+                        ),
+                        child: Image.network(image)
+                        ),
+              ),
             ],
           ),
         );
@@ -441,10 +469,12 @@ class _PanditHomeState extends State<PanditHome> {
   }}
 
 class PanditCard extends StatelessWidget{
+  final double lat;
+  final double lng;
   final String? name;
   final String? uid;
   final BMModal bModal;
-  PanditCard({required this.bModal, this.name,this.uid});
+  PanditCard({required this.bModal, this.name,this.uid,required this.lat,required this.lng});
   
   @override
   Widget build(BuildContext context) {
@@ -452,8 +482,10 @@ class PanditCard extends StatelessWidget{
     double width =  MediaQuery.of(context).size.width;
      final LocationController locationController = Get.find();
     GeoPoint geoPoint = bModal.location!['geopoint'];
-    double distanceInMeters = Geolocator.distanceBetween(double.parse('${locationController.location.value.lat.toString()}'),double.parse('${locationController.location.value.lng.toString()}'), geoPoint.latitude, geoPoint.longitude);
+    double distanceInMeters = Geolocator.distanceBetween(lat,lng, geoPoint.latitude, geoPoint.longitude);
+    
     return InkWell(
+      hoverColor: Colors.transparent,
       onTap: (){
        if(ResponsiveWidget.isSmallScreen(context)){
           FareBreakup farebreakup = Get.put(FareBreakup());
@@ -470,70 +502,141 @@ class PanditCard extends StatelessWidget{
         Get.toNamed('/profile?puid=${bModal.uid}');
        }
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-
-        ),
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+      child: HoverWidget(
+        onHover: (event){},
+        hoverChild: Container(
+          height: height*0.1,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Color(0xff181c2c)),            
+            boxShadow: [
+              BoxShadow(
+                color: LightColors.shadowColor,
+                blurRadius: 20
+              )
+            ]
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+      
+               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-
-                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      height: 80,width: 80,
-                      decoration: BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.white,blurRadius: 20)],
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: NetworkImage('${bModal.image}'),
-                              fit: BoxFit.fill
-                          )
-                      ),
+                  Container(
+                    height: 80,width: 80,
+                    decoration: BoxDecoration(
+                      boxShadow: [BoxShadow(color: Colors.white,blurRadius: 20)],
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage('${bModal.image}'),
+                            fit: BoxFit.fill
+                        )
                     ),
-                  ],
-                 ),
-
-                  SizedBox(height: 15,),
-                  Row(
-                    children: [
-                    Text1(max: 12, data: '${bModal.name}', min: 12,weight: FontWeight.w600,),
-                    SizedBox(width:10),
-                    bModal.verified?Icon(Icons.verified,size: 13,color: Color(0xff34B7F1),):SizedBox()
-                  ],),
-                  SizedBox(height:10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      rating(),
-                      SizedBox(width:10),
-                      Icon(Icons.circle,color: Colors.black54,size: 2,),
-                      SizedBox(width:10),
-                      Text1(max: 10, data: '${bModal.city}', min: 10,clr: Colors.black54,),
-                      SizedBox(width:10),
-                      Icon(Icons.circle,color: Colors.black54,size: 2,),
-                      SizedBox(width:10),
-                      Text1(max: 10, data: '${bModal.state}', min: 10,clr: Colors.black54,),
-                      SizedBox(width:10),
-                      Icon(Icons.circle,color: Colors.black54,size: 2,),
-                      SizedBox(width:10),
-                      Text1(max: 10, data: '${(distanceInMeters/1000).toStringAsFixed(2)} KM', min: 10,clr: Colors.black54,),
-                    ],
                   ),
                 ],
-              ),
+               ),
+      
+                SizedBox(height: 15,),
+                Row(
+                  children: [
+                  Text1(max: 20, data: '${bModal.name}', min: 18,weight: FontWeight.w600,),
+                  SizedBox(width:10),
+                  bModal.verified?Icon(Icons.verified,size: 13,color: Color(0xff34B7F1),):SizedBox()
+                ],),
+                SizedBox(height:10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    rating(),
+                    SizedBox(width:10),
+                    Icon(Icons.circle,color: Colors.black54,size: 2,),
+                    SizedBox(width:10),
+                    Text1(max: 12, data: '${bModal.city}', min: 10,clr: Colors.black54,),
+                    SizedBox(width:10),
+                    Icon(Icons.circle,color: Colors.black54,size: 2,),
+                    SizedBox(width:10),
+                    Text1(max: 12, data: '${bModal.state}', min: 10,clr: Colors.black54,),
+                    SizedBox(width:10),
+                    Icon(Icons.circle,color: Colors.black54,size: 2,),
+                    SizedBox(width:10),
+                    Text1(max: 12, data: '${(distanceInMeters/1000).toStringAsFixed(2)} KM', min: 10,clr: Colors.black54,),
+                  ],
+                ),
+              ],
             ),
-
-          ],
+          ),
+        ),
+        child: Container(
+      
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+      
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+      
+               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    height: 80,width: 80,
+                    decoration: BoxDecoration(
+                      boxShadow: [BoxShadow(color: Colors.white,blurRadius: 20)],
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage('${bModal.image}'),
+                            fit: BoxFit.fill
+                        )
+                    ),
+                  ),
+                ],
+               ),
+      
+                SizedBox(height: 15,),
+                Row(
+                  children: [
+                  Text1(max: 18, data: '${bModal.name}', min: 16,weight: FontWeight.w600,),
+                  SizedBox(width:10),
+                  bModal.verified?Icon(Icons.verified,size: 13,color: Color(0xff34B7F1),):SizedBox()
+                ],),
+                SizedBox(height:10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    rating(),
+                    SizedBox(width:10),
+                    Icon(Icons.circle,color: Colors.black54,size: 2,),
+                    SizedBox(width:10),
+                    Text1(max: 12, data: '${bModal.city}', min: 10,clr: Colors.black54,),
+                    SizedBox(width:10),
+                    Icon(Icons.circle,color: Colors.black54,size: 2,),
+                    SizedBox(width:10),
+                    Text1(max: 12, data: '${bModal.state}', min: 10,clr: Colors.black54,),
+                    SizedBox(width:10),
+                    Icon(Icons.circle,color: Colors.black54,size: 2,),
+                    SizedBox(width:10),
+                    Text1(max: 12, data: '${(distanceInMeters/1000).toStringAsFixed(2)} KM', min: 10,clr: Colors.black54,),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -548,7 +651,7 @@ Widget rating(){
     if(overall_rate >=3 && overall_rate<4){
       return  newrate(overall_rate,Colors.orangeAccent);
     }
-   return  newrate(overall_rate>0?bModal.swastik!:0, Colors.redAccent);
+   return  newrate(overall_rate>=0?bModal.swastik!:0, Colors.green);
 
  
    
@@ -564,7 +667,7 @@ Widget rating(){
       child: Row(children: [
         Icon(Icons.star,color:Colors.white,size:12),
         SizedBox(width:2),
-        Text1(max: 12, data: '${overall_rate.toStringAsFixed(1)}', min: 11,clr: Colors.white,)
+        Text1(max: 12, data: overall_rate==0.0?'5.0':'${ overall_rate.toStringAsFixed(1)}', min: 11,clr: Colors.white,)
       ],),
     );
   }

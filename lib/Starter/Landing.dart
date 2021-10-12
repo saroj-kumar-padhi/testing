@@ -14,12 +14,14 @@ import 'package:pujapurohit/SignIn/StarterController.dart';
 import 'package:pujapurohit/SignIn/login.dart';
 import 'package:pujapurohit/Widgets/Loader.dart';
 import 'package:pujapurohit/Widgets/Texts.dart';
+import 'package:pujapurohit/Widgets/YoutubePlayer.dart';
+import 'package:pujapurohit/Widgets/bottombar.dart';
 import 'package:pujapurohit/colors/light_colors.dart';
 
 import 'package:pujapurohit/controller/LocationController.dart';
 import 'package:pujapurohit/controller/loginController.dart';
 
-import 'package:pujapurohit/widgets/bottombar.dart';
+
 import 'package:url_launcher/link.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -93,7 +95,7 @@ class Landing extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        width: ResponsiveWidget.isSmallScreen(context)?screenSize.width:screenSize.width*0.55,                     
+                        width: ResponsiveWidget.isSmallScreen(context)?screenSize.width:screenSize.width*0.5,                     
                         child: Padding(
                           padding: EdgeInsets.only(left:16.0),
                           child: Column(
@@ -128,7 +130,19 @@ class Landing extends StatelessWidget{
                                   // )
                                 ],
                               ),
-                              SizedBox(height: screenSize.height*0.2,),
+                              ResponsiveWidget.isSmallScreen(context)? SizedBox(height: screenSize.height*0.01,):SizedBox(),
+                                  ResponsiveWidget.isSmallScreen(context)? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                                        width:screenSize.width*0.7 ,
+                                                          height: screenSize.height*0.3,
+                                                          child: YoutubeAppDemo(id: "X19FYK5Q684")
+                                                        
+                                                        ),
+                                    ],
+                                  ):SizedBox(),
+                              //SizedBox(height: screenSize.height*0.2,),
                               Row(
                                 children: [
                                   ResponsiveWidget.isSmallScreen(context) ?AutoSizeText('जय सनातन',maxFontSize: ResponsiveWidget.isSmallScreen(context)?20:40,minFontSize:ResponsiveWidget.isSmallScreen(context)?16: 30,style:  TextStyle(color: Colors.black54,fontWeight: FontWeight.bold),):AnimatedTextKit(
@@ -205,7 +219,7 @@ class Landing extends StatelessWidget{
                                 ),
                               ),
                               SizedBox(height: screenSize.height*0.05,),
-                              SelectableText('Online Pandit booking Plaform',style: TextStyle(color: Colors.grey,wordSpacing: 2.0,fontSize: ResponsiveWidget.isSmallScreen(context)?20:30),),
+                              SelectableText('Online Pandit booking Platform',style: TextStyle(color: Colors.grey,wordSpacing: 2.0,fontSize: ResponsiveWidget.isSmallScreen(context)?20:30),),
                               SizedBox(height: 10,),
                               SelectableText('Book purohit/pandit in minimum cost with puja purohit',style: TextStyle(fontSize: ResponsiveWidget.isSmallScreen(context)?12:16,fontWeight: FontWeight.bold,color: Colors.black54),)
                             ],
@@ -213,6 +227,7 @@ class Landing extends StatelessWidget{
                         ),
                       ),
                       ResponsiveWidget.isSmallScreen(context)?SizedBox():Container(
+                        margin:EdgeInsets.only(top: Get.height*0.1,left: 20),
                         width: screenSize.width*0.45,
                         //color: Colors.amber,
                         child: Row(
@@ -222,38 +237,8 @@ class Landing extends StatelessWidget{
                             Container(
                                   width:screenSize.width*0.45 ,
                                   height: screenSize.height*0.7,
-                                  child: StreamBuilder<QuerySnapshot>(
-                                    stream: FirebaseFirestore.instance.collection('PujaPurohitFiles/sliders/first').snapshots(),
-                                    builder: (context, snapshot) {
-                                      if(snapshot.data == null){
-                                        return Center(child: SizedBox(height: 50,child: Loader(),),);
-                                      }
-                                       List<String> imgList = [];
-                                      List<Widget> imageSliders = imgList.map((item) => Container(height:200,width:100,child: Image.network(item, fit: BoxFit.cover,)),).toList();
-                                      List<Widget> sliders = [];
-                                      Widget imageContainer(String img,String link){
-                                          return Link(
-                                            target: LinkTarget.blank,
-                                            uri: Uri.parse(link), builder: (_,followlink){
-                                            return InkWell(
-                                              onTap: followlink,
-                                              child: Image.network(img, fit: BoxFit.cover,width: 1000,));
-                                          });
-                                      }
-                                      for(var i in snapshot.data!.docs){
-                                        final imageData = imageContainer(i.get('image'),i.get('link'));
-                                        sliders.add(imageData);                                      }
-                                    
-                                      return CarouselSlider(
-                                        options: CarouselOptions(
-                                            pauseAutoPlayInFiniteScroll: true,
-                                            autoPlay: true,
-                                            enlargeCenterPage: true
-                                        ),
-                                        items: sliders,
-                                      );
-                                    }
-                                  ),
+                                  child: YoutubeAppDemo(id: "X19FYK5Q684")
+                                
                                 )
                           ],
                         ),
@@ -262,6 +247,7 @@ class Landing extends StatelessWidget{
                   ),
                 );
                }),
+              
                 SizedBox(height: screenSize.height*0.01,),
                 Padding(
                   padding: const EdgeInsets.only(left:16.0),

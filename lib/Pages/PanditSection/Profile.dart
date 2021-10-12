@@ -8,11 +8,13 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pujapurohit/Models/serviceModal.dart';
 import 'package:pujapurohit/Models/servicetop.dart';
+import 'package:pujapurohit/Pages/NewPanditHome.dart';
 import 'package:pujapurohit/Pages/PanditSection/Account.dart';
 import 'package:pujapurohit/Pages/PanditSection/Controllers/serviceTop.dart';
 import 'package:pujapurohit/Widgets/Loader.dart';
 import 'package:pujapurohit/Widgets/Texts.dart';
 import 'package:pujapurohit/Widgets/bottombar.dart';
+import 'package:pujapurohit/Widgets/newbottombar.dart';
 import 'package:pujapurohit/Widgets/reviews.dart';
 import 'package:pujapurohit/colors/light_colors.dart';
 import 'package:pujapurohit/controller/CommonController.dart';
@@ -34,80 +36,7 @@ class Profile extends StatelessWidget{
    return Scaffold(
      
      appBar:PreferredSize(preferredSize: Size(ScreenSize.width,height*0.099,), 
-      child: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))
-              ),
-              width: width,
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap:(){Get.toNamed('/home');},
-                          child: Image.asset('assets/images/logo.png',fit: BoxFit.fill,height: 60,width: 60,),
-                        ),
-                        SizedBox(width:10),
-                          SizedBox(height: height*0.4,
-                            child:InkWell(
-                              onTap: (){
-                                Get.to(Account());
-                             //Get.toNamed('/account');
-                             // Get.snackbar("Login", "Please login to avail location change feature",backgroundColor: Colors.white,padding: EdgeInsets.all(20),colorText: Colors.grey,duration:Duration(seconds: 3));
-                                
-                              },
-                              child:  Container(
-                                  width: width*0.4,
-                                  child: Row(
-                                  children: [
-                                //  ResponsiveWidget.isSmallScreen(context)?Expanded(child: Text1(max: 9, data: "${locationController.location.value.address}", min: 8, clr: Colors.black54,)):Text1(max: 9, data: "${locationController.location.value.address}", min: 8, clr: Colors.black54,),                                  
-                                  //SizedBox(width:5),
-                                    Text1(max: 12, data: "India", min: 11,weight:FontWeight.bold,clr:Colors.black),
-                                    SizedBox(width:5),
-                                    Icon(Icons.home,color:LightColors.kDarkYellow,size:12)
-                                  ],
-                              ),
-                           )
-                            )
-                          ),
-                          SizedBox(width:10),                
-                      ],
-                    ),
-                   ResponsiveWidget.isSmallScreen(context)? Row(children: [
-                     SizedBox(width: 20,),
-                     Icon(LineIcons.search,size: 18,color: Colors.black54,),
-                     SizedBox(width: 20,),
-                     IconButton(icon: Icon(LineIcons.user,color: Colors.black54,size: 18,),onPressed: (){
-                     //  Get.toNamed('/account');
-                     Get.to(Account());
-                     },),
-                     
-                   ],):Row(
-                      children: [
-                        SizedBox(width: 20,),
-                        ModifiedTextIcon(iconColor: Colors.black54,icondata: LineIcons.search, max: 12, data: 'Search', min: 8,color: Colors.black54,weight: FontWeight.bold,),
-                        SizedBox(width: 20,),
-                        InkWell(
-                          onTap: (){
-                          // Get.toNamed('/account');
-                          Get.to(Account());
-
-                          },
-                          child: ModifiedTextIcon(iconColor: Colors.black54,icondata: LineIcons.user, max: 12, data: 'Sign In', min: 8,color: Colors.black54,weight: FontWeight.bold),
-                        ),
-                        
-                        SizedBox(width: 20,),
-                        ModifiedTextIcon(iconColor: Colors.black54,icondata: LineIcons.shoppingBag, max: 12, data: 'Cart', min: 8,color: Colors.black54,weight: FontWeight.bold),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
+      child: TopTabs()
       ),
      
      body: GetX<PanditDetailController>(
@@ -410,7 +339,7 @@ class Profile extends StatelessWidget{
                  ],
                ),
               
-                BottomBar()
+                ResponsiveWidget.isSmallScreen(context)?MobileBottomBar():NewBottomBar()
              ],
            ),
          );

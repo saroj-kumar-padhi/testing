@@ -113,10 +113,13 @@ class LocationController extends GetxController{
 Future<void>signuplocation()async{
   var postion = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
    location.update((location) async{
-    // String address = await AsistentMethod.searchCoordinateAddress(postion.latitude.toString(),postion.longitude.toString());
-     location!.slat =postion.latitude.obs;
-     location.slng = postion.longitude.obs;
-    // location.address=address;
+       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    // String address = await AsistentMethod.searchCoordinateAddress(position.latitude.toString(),position.longitude.toString());
+      location!.slat= position.latitude.toString();
+      location.slng = position.longitude.toString();
+       //location.address = address;
+    
+     
   });
 }
 
