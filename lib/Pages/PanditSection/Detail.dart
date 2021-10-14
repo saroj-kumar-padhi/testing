@@ -162,18 +162,18 @@ class Detail extends StatelessWidget{
                           ],
                         )                 
                         ),
-                        Padding(
-                        padding:EdgeInsets.only(left:width*0.1),
-                        child: Text1(
-                          data: "Suggested purohit for ${snapshot.data!.get('pujaname')}",                         
-                          max: 14, min: 11,clr: Colors.black87,),
-                      ),
-                      SizedBox(height: 10,),
-                      Padding(
-                        padding:EdgeInsets.only(left:width*0.1),
-                        child: authController.user==null? unloggeduggestions(snapshot):SizedBox(),
+                      //   Padding(
+                      //   padding:EdgeInsets.only(left:width*0.1),
+                      //   child: Text1(
+                      //     data: "Suggested purohit for ${snapshot.data!.get('pujaname')}",                         
+                      //     max: 14, min: 11,clr: Colors.black87,),
+                      // ),
+                      // SizedBox(height: 10,),
+                      // Padding(
+                      //   padding:EdgeInsets.only(left:width*0.1),
+                      //   child: authController.user==null? unloggeduggestions(snapshot):SizedBox(),
                         
-                      ),
+                      // ),
                        snapshot.data!.get('video') ?Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

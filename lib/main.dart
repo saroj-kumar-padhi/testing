@@ -3,6 +3,7 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:pujapurohit/Pages/PanditSection/Contest.dart';
+import 'package:pujapurohit/Pages/PanditSection/Controllers/EventController.dart';
 import 'package:pujapurohit/Pages/PanditSection/CustomCIty.dart';
 import 'package:pujapurohit/Pages/PanditSection/Detail.dart';
 import 'package:pujapurohit/Pages/PanditSection/NewLandingPage.dart';
@@ -18,10 +19,13 @@ import 'package:pujapurohit/Starter/Landing.dart';
 import 'package:pujapurohit/Starter/SplashScreen.dart';
 import 'package:pujapurohit/Widgets/YoutubePlayer.dart';
 import 'package:pujapurohit/construction.dart';
-import 'package:pujapurohit/testimage.dart';
+import 'package:pujapurohit/controller/loaderController.dart';
 import 'Pages/NewPanditHome.dart';
 import 'Pages/PanditSection/Account.dart';
-import 'Pages/PanditSection/Events.dart';
+import 'Pages/PanditSection/Event/EventDetail.dart';
+import 'Pages/PanditSection/Event/EventRegistration.dart';
+import 'Pages/PanditSection/Event/Events.dart';
+import 'Pages/PanditSection/Event/ImageView.dart';
 import 'Pages/PanditSection/PanditHome.dart';
 import 'Pages/PanditSection/Profile.dart';
 import 'Pages/PanditSection/ServiceDetail.dart';
@@ -103,12 +107,14 @@ class MyApp extends StatelessWidget{
         GetPage(name: '/detail', page: ()=>Detail()),
         GetPage(name: '/articledetail', page: ()=>ArticleDetail()),
         //GetPage(name: '/searchplaces', page: ()=>SearchPlaces()),
-        GetPage(name: '/contest', page: ()=>Contest()),
-        GetPage(name: '/DetailView', page: ()=>DetailView()),
+        // GetPage(name: '/contest', page: ()=>Contest()),
+        // GetPage(name: '/DetailView', page: ()=>DetailView()),
         GetPage(name: '/location', page:()=> CustomCity()),
          GetPage(name: '/event', page: ()=>Events()),
-        GetPage(name:'/eventDetail',page: ()=>EventDetail()),
-        GetPage(name: '/imageview', page: ()=>ImageView())
+        GetPage(name:'/eventDetail',page:()=>EventDetail()),
+        GetPage(name: '/imageview', page:()=>ImageView()),
+        GetPage(name: '/registration', page:()=> Registration_Form() ),
+         GetPage(name: '/success', page:()=> SuccessPage()),
       ],
     );
   }
@@ -161,3 +167,90 @@ class IsLocated extends StatelessWidget{
 }
 
 
+class SuccessPage extends StatefulWidget {
+  @override
+  State<SuccessPage> createState() => _SuccessPageState();
+}
+
+class _SuccessPageState extends State<SuccessPage> {
+  final EventControllerPayment eventControllerPayment = Get.put(EventControllerPayment());
+
+  final AuthController authController = Get.put(AuthController());
+
+  final LoadController loadController = Get.put(LoadController());
+
+  String index = Get.parameters["id"]!;
+  @override
+  void initState() {
+    FirebaseFirestore.instance.doc("PujaPurohitFiles/events/${eventControllerPayment.paymentData.value.event}/${authController.user!.uid}").set({
+                                                    'name': "${eventControllerPayment.paymentData.value.name}",
+                                                    'age':"${eventControllerPayment.paymentData.value.age}",
+                                                    'votes':0,
+                                                    'voters':FieldValue.arrayUnion([]),
+                                                    'image':"${eventControllerPayment.paymentData.value.image}",
+                                                    'vote':false,
+                                                    'gender':"${eventControllerPayment.paymentData.value.gender}",
+                                                    'event':"${eventControllerPayment.paymentData.value.event}",
+                                                    'num':FieldValue.increment(eventControllerPayment.paymentData.value.participants1!.length+1),
+                                                    'id':authController.user!.uid,
+                                                    'puja':"${eventControllerPayment.paymentData.value.puja}",
+                                                    'payment':true,
+                                                  }).whenComplete(() async{
+                                                    // List<dynamic> participants1 = eventControllerPayment.paymentData.value.participants1!;
+                                                    // List<dynamic> total_V= participants1;
+                                                    // participants1.add(authController.user!.uid);
+                                                    // await FirebaseFirestore.instance.doc('/PujaPurohitFiles/events').update(({
+                                                    //   '${eventControllerPayment.paymentData.value.name}P':total_V
+                                                    // }));
+                                                    
+                                                    loadController.updateLoad();
+                                                  });
+               
+    super.initState();
+  }
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 200,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Payment Received',
+                style: Theme.of(context).textTheme.headline1,
+              ),
+            ],
+          ),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Obx((){
+                return loadController.load.value.active?SizedBox(height: 50,width: 50, child: Loader(),):
+
+                 ElevatedButton(child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text("Click here to submit application",style: Theme.of(context).textTheme.headline5,),
+                        ),
+                        style: ElevatedButton.styleFrom(primary: Colors.orangeAccent,shape: StadiumBorder()),
+                        onPressed: ()async{
+                              loadController.updateLoad();
+                              Get.offAndToNamed('/eventDetail?event=$index');
+                        },
+                        );
+            
+            
+              })
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}

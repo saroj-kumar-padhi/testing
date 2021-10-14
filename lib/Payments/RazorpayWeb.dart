@@ -28,6 +28,12 @@ class RazorPayWeb extends StatefulWidget {
 }
 class _RazorPayWebState extends State<RazorPayWeb> {
   final code = OTP.generateTOTPCodeString('JBSWY3DPEHPK3PXP', DateTime.now().millisecondsSinceEpoch);
+
+
+
+
+
+  
   void codCheckout()async{
      double samagri_amount_paid = widget.bookingModal!.Due +widget.bookingModal!.transaction;
     double travel_charge = widget.bookingModal!.pdistance!*3;
@@ -202,8 +208,8 @@ class _RazorPayWebState extends State<RazorPayWeb> {
           print('PAYMENT SUCCESSFULL!!!!!!!');
            double transaction = widget.bookingModal!.Due*0.0225;
 
-    double samagri_amount_paid = widget.bookingModal!.Due +widget.bookingModal!.transaction;
-       FirebaseFirestore.instance.doc('punditUsers/${widget.bookingModal!.pandituid}/notification/${widget.bookingModal!.bookingId}').set({
+     double samagri_amount_paid = widget.bookingModal!.Due +widget.bookingModal!.transaction;
+     FirebaseFirestore.instance.doc('punditUsers/${widget.bookingModal!.pandituid}/notification/${widget.bookingModal!.bookingId}').set({
       'token':widget.bookingModal!.btoken,
       'utoken':widget.bookingModal!.utoken,
       'clientuid':widget.bookingModal!.clientuid,
@@ -211,7 +217,7 @@ class _RazorPayWebState extends State<RazorPayWeb> {
       'image':widget.bookingModal!.pic,
       'content':"Visit sharp at ${widget.bookingModal!.time} on ${widget.bookingModal!.date}",
     });
-   FirebaseFirestore.instance.doc('Bookings/${widget.bookingId}').set({
+     FirebaseFirestore.instance.doc('Bookings/${widget.bookingId}').set({
       'ConfirmPayment':false,
       'cancel':widget.bookingModal!.cancel,
       'refundmoney':widget.bookingModal!.refundmoney,
@@ -370,6 +376,10 @@ class _RazorPayWebState extends State<RazorPayWeb> {
       
       return element;
     });
+   
+   
+   
+   
     double transaction = widget.bookingModal!.Due*0.0225;
     double travel_charge = widget.bookingModal!.pdistance!*3;
     double vtravel_charge = widget.bookingModal!.samagri!?widget.bookingModal!.vdistance!*3:0.0;
