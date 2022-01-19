@@ -239,7 +239,7 @@ class BLanding extends StatelessWidget{
                                         ],
                                       ),
                                       SizedBox(height: 20,),
-                                      Text2(data: "    POPULAR CITIES IN INDIA", max: ResponsiveWidget.isMediumScreen(context)?12:18,clr:Colors.black45),
+                                      Text2(data: "    BOOK PUROHIT IN POPULAR CITIES OF INDIA", max: ResponsiveWidget.isMediumScreen(context)?12:18,clr:Colors.black45),
                                       SizedBox(height: 10,),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
@@ -354,7 +354,7 @@ class BLanding extends StatelessWidget{
                               children: [
                                 Image.network("https://firebasestorage.googleapis.com/v0/b/flutter-bf503.appspot.com/o/website%2FGroup%207.png?alt=media&token=56d60d23-7a32-47c2-9dc9-f14ff951dd4a",height: ResponsiveWidget.isMediumScreen(context)?120:196,),
                                 SizedBox(height:ResponsiveWidget.isMediumScreen(context)?height*0.03: height*0.05,),
-                                Text2(data: "BOOK FOR YOUR LOVED ONE", max: ResponsiveWidget.isMediumScreen(context)?11:14, clr: Colors.white,),
+                                Text2(data: "NOW BOOK PUROHIT ONLINE", max: ResponsiveWidget.isMediumScreen(context)?11:14, clr: Colors.white,),
                                 SizedBox(height:ResponsiveWidget.isMediumScreen(context)?height*0.03: height*0.05,),
                                 Text2(data: "BOOK PUJA FOR YOURSELF AND YOUR LOVES ONES", max: ResponsiveWidget.isMediumScreen(context)?11:14, clr: Colors.white,),
                               ],
@@ -365,9 +365,9 @@ class BLanding extends StatelessWidget{
                               children: [
                                 Image.network("https://firebasestorage.googleapis.com/v0/b/flutter-bf503.appspot.com/o/website%2FFrame.png?alt=media&token=e8954c1c-86f5-4967-8191-756c09938d1a",height: ResponsiveWidget.isMediumScreen(context)?120:196,),
                                 SizedBox(height:ResponsiveWidget.isMediumScreen(context)?height*0.03: height*0.05,),
-                                Text2(data: "LIVE PUROHIT TRACKING",max: ResponsiveWidget.isMediumScreen(context)?11:14, clr: Colors.white,),
+                                Text2(data: "GET PUROHIT NEARBY YOU ",max: ResponsiveWidget.isMediumScreen(context)?11:14, clr: Colors.white,),
                                 SizedBox(height:ResponsiveWidget.isMediumScreen(context)?height*0.03: height*0.05,),
-                                Text2(data: "LIVE TRACK YOUR PUROHIT WITH OUR LATEST ETA SYSTEM", max: ResponsiveWidget.isMediumScreen(context)?11:14, clr: Colors.white,),
+                                Text2(data: "TRACK YOUR SURROUNDING PUROHIT WITH OUR LATEST ETA SYSTEM", max: ResponsiveWidget.isMediumScreen(context)?11:14, clr: Colors.white,),
                               ],
                             )),
                         Expanded(
