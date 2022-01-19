@@ -389,7 +389,7 @@ class BLanding extends StatelessWidget{
                 ),
               ),
               Container(
-                height: 783,
+                height: 650,
                 color: Color(0xfffcfcfc),
                 padding: EdgeInsets.only(left: width*0.1,),
                 child: Row(
@@ -428,7 +428,7 @@ class BLanding extends StatelessWidget{
                             ),
                             SizedBox(width: 10,),
                             Padding(
-                              padding: EdgeInsets.only(bottom:height*0.23),
+                              padding: EdgeInsets.only(bottom:height*0.29),
                               child: Image.network("https://firebasestorage.googleapis.com/v0/b/flutter-bf503.appspot.com/o/website%2F1626627304499%201.png?alt=media&token=c82ef1b8-5101-4323-b43f-6573d0d86214",height: height*0.8,width: width*0.2,),
                             )
                           ],
