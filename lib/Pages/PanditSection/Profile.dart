@@ -4,24 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dotted_line/dotted_line.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:pujapurohit/Models/serviceModal.dart';
 import 'package:pujapurohit/Models/servicetop.dart';
 import 'package:pujapurohit/Pages/NewPanditHome.dart';
-import 'package:pujapurohit/Pages/PanditSection/Account.dart';
 import 'package:pujapurohit/Pages/PanditSection/Controllers/serviceTop.dart';
 import 'package:pujapurohit/Widgets/Loader.dart';
 import 'package:pujapurohit/Widgets/Texts.dart';
-import 'package:pujapurohit/Widgets/bottombar.dart';
 import 'package:pujapurohit/Widgets/newbottombar.dart';
 import 'package:pujapurohit/Widgets/reviews.dart';
-import 'package:pujapurohit/colors/light_colors.dart';
 import 'package:pujapurohit/controller/CommonController.dart';
-
 import 'Controllers/ImagesController.dart';
 import 'Controllers/panditsController.dart';
-import 'PanditHome.dart';
 import 'Widgets/responsive.dart';
 class Profile extends StatelessWidget{
   @override
@@ -32,7 +25,6 @@ class Profile extends StatelessWidget{
     var ScreenSize= MediaQuery.of(context).size;
     final DetailSideMenu detailSideMenu= Get.put(DetailSideMenu());
     final DetailSideMenu1 detailSideMenu1= Get.put(DetailSideMenu1());
-    final CommonController commonController = Get.put(CommonController());
    return Scaffold(
      
      appBar:PreferredSize(preferredSize: Size(ScreenSize.width,height*0.099,), 

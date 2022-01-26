@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget{
     initialBinding: LocationBinding(),
     //home: ImageTest(),
     initialRoute: '/home',
-      title: "Book pandit Online, Online Pandit, Booking Pandit for Puja, Marriage, Katha",
+      title: "Book pandit Online, Online Pandit, Booking Pandit for Puja, Marriage, Katha,Pandit nearby you",
 
       getPages: [
         // GetPage(name: '/', page:()=>SplashScreen()),
