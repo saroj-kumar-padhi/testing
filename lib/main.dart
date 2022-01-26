@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       //builder: DevicePreview.appBuilder,
       theme: Themes.light,
-      darkTheme: Themes.dark,
+      //darkTheme: Themes.dark,
     initialBinding: LocationBinding(),
     //home: ImageTest(),
     initialRoute: '/home',
