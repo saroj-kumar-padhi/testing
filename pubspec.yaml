@@ -14,7 +14,8 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^5.0.0
-  google_fonts: ^2.0.0
+  google_fonts: ^2.2.0
+  # google_fonts: ^2.0.0
   get: ^4.1.3
   responsive_framework: ^0.1.0
   auto_size_text: ^3.0.0-nullsafety.0
@@ -105,6 +106,8 @@ flutter:
     - assets/images/scooter.png
     - assets/images/google-play-badge.png
     - assets/mark.png
+    - assets/images/lap.jpg
+    - assets/images/person1.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
